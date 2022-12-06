@@ -34,10 +34,9 @@ class App extends Component {
           if (hits.length === 0) {
             toast.error(`No results for search ${query}`);
             this.setState({ status: 'idle' });
-            return;
           }
 
-          return this.setState(state => ({
+          this.setState(state => ({
             images: [...state.images, ...hits],
             imagesOnPage: state.imagesOnPage + hits.length,
             totalImages: totalHits,
@@ -73,16 +72,14 @@ class App extends Component {
     return (
       <AppStyled>
         <Searchbar onSubmit={getSearchRequest} />
-        <ToastContainer autoClose={3000} />
         {status === 'pending' && <Loader />}
         {status === 'rejected' &&
           toast.error(`Sum problems with search ${query}`)}
         {status === 'resolved' && <ImageGallery images={images} />}
-
         {imagesOnPage < totalImages && (
           <Button onNextFetch={onNextFetch}>Load More</Button>
         )}
-
+        <ToastContainer autoClose={3000} />
         <GlobalStyle />
       </AppStyled>
     );
